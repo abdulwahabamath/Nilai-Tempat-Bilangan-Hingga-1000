@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophia & Kerajaan Angka Ajaib</title>
+    <!-- Tailwind CSS for modern pastel UI styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for friendly rounded typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #FFEBF0 0%, #F3E7FF 100%);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        h1, h2, h3, .font-kids {
+            font-family: 'Fredoka One', cursive;
+        }
+        .magic-shadow {
+            box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.15), 0 8px 10px -6px rgba(244, 63, 94, 0.15);
+        }
+        .sparkle-btn {
+            background: linear-gradient(135deg, #FF758F 0%, #FF7EB3 100%);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .sparkle-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 20px rgba(244, 63, 94, 0.35);
+        }
+        .sparkle-btn:active {
+            transform: scale(0.98) translateY(0);
+        }
+        .grid-input {
+            text-align: center;
+            font-family: 'Fredoka One', cursive;
+            background: #FFF5F7;
+            border: 2px solid #FFCCD5;
+            color: #FF4D6D;
+            transition: all 0.2s;
+        }
+        .grid-input:focus {
+            background: #FFF;
+            border-color: #FF4D6D;
+            outline: none;
+            box-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating-avatar {
+            animation: float 3.5s ease-in-out infinite;
+        }
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFEBF0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFCCD5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF758F;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden text-[#5E4B5B]">
+
+    <!-- Sound & Score Bar Header -->
+    <header class="p-4 flex justify-between items-center bg-white/70 backdrop-blur-md border-b-2 border-[#FFECEF] sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#FFD3E8] rounded-full flex items-center justify-center text-xl floating-avatar">🌸</div>
+            <div>
+                <h1 class="text-lg md:text-xl text-[#FF4D6D] tracking-wide">Sophia & Angka Ajaib</h1>
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold">Petualangan Matematika Kelas 3 SD</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 md:gap-4">
+            <!-- Score Indicator -->
+            <div class="bg-[#FFF0F3] px-3 py-1.5 rounded-full border border-[#FFCCD5] flex items-center gap-2">
+                <span class="text-yellow-400">⭐</span>
+                <span id="player-score" class="font-bold text-[#FF4D6D] text-sm md:text-base">0</span>
+            </div>
+            <!-- Audio Controller -->
+            <button onclick="toggleSound()" id="sound-btn" class="w-10 h-10 bg-white border-2 border-[#FFCCD5] hover:bg-[#FFF0F3] rounded-full flex items-center justify-center transition-colors text-lg" title="Matikan/Nyalakan Suara">
+                🔊
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-4 py-6 max-w-4xl">
+        
+        <!-- ================= HOME / LEVEL MAP SCREEN ================= -->
+        <section id="screen-map" class="space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl md:text-4xl text-[#FF4D6D] drop-shadow-sm">Halo Putri Cerdas! 🏰✨</h2>
+                <p class="text-xs md:text-sm max-w-md mx-auto font-medium">Bantu Sophia mengumpulkan semua bintang ajaib dengan memecahkan teka-teki bilangan!</p>
+            </div>
+
+            <!-- Interaktif Greeting Panel with Sophia's Magic Aura -->
+            <div class="bg-white/85 border-2 border-[#FFCCD5] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-6 magic-shadow">
+                <div class="w-28 h-28 bg-[#FFF0F3] rounded-full flex items-center justify-center shrink-0 floating-avatar border-2 border-[#FFCCD5]">
+                    <!-- Inline Cute Fairy Sophia SVG -->
+                    <svg viewBox="0 0 100 100" class="w-24 h-24">
+                        <circle cx="50" cy="40" r="20" fill="#FFD1DC"/>
+                        <circle cx="42" cy="38" r="2" fill="#5E4B5B"/>
+                        <circle cx="58" cy="38" r="2" fill="#5E4B5B"/>
+                        <path d="M 45 48 Q 50 53 55 48" stroke="#5E4B5B" stroke-width="2" fill="none"/>
+                        <!-- Hair styling -->
+                        <path d="M 30 35 Q 50 15 70 35 Q 75 45 70 55 Q 50 40 30 55" fill="#8B5A2B"/>
+                        <!-- Sparkly crown -->
+                        <path d="M 50 15 L 45 22 L 55 22 Z" fill="#FFD700"/>
+                        <circle cx="50" cy="14" r="3" fill="#FF4D6D"/>
+                        <!-- Fairy Wings -->
+                        <path d="M 30 40 Q 10 30 25 60 Z" fill="#E2F0CB" opacity="0.8"/>
+                        <path d="M 70 40 Q 90 30 75 60 Z" fill="#E2F0CB" opacity="0.8"/>
+                    </svg>
+                </div>
+                <div class="space-y-3 text-center md:text-left">
+                    <p class="text-[#FF4D6D] font-kids text-lg">Hai Teman-teman! 👋</p>
+                    <p class="text-xs md:text-sm leading-relaxed">Namaku Sophia! Aku akan membimbingmu mempelajari bilangan ratusan dengan gembira. Klik salah satu level petualangan di bawah untuk mulai bermain!</p>
+                    <button onclick="startFirstLevel()" class="sparkle-btn px-6 py-2.5 rounded-full text-white font-bold text-xs md:text-sm tracking-wider magic-shadow">
+                        Ayo Berpetualang! ✨
+                    </button>
+                </div>
+            </div>
+
+            <!-- Level Cards Grid (4 Levels - Removed Level 5) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
+                <!-- Level 1 Card -->
+                <div onclick="selectLevel(1)" class="cursor-pointer bg-white border-2 border-[#FFCCD5] hover:border-[#FF4D6D] rounded-3xl p-5 text-center transition-all hover:-translate-y-1.5 magic-shadow relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-[#FFD3E8] text-[10px] px-3 py-1 rounded-bl-xl font-bold text-[#FF4D6D]">Level 1</div>
+                    <div class="text-4xl mb-3">🧩</div>
+                    <h3 class="text-lg text-[#FF4D6D] font-kids">Labirin Kotak</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-semibold">Potongan kotak 100 & 1000</p>
+                    <div class="mt-4 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FFF0F3] border border-[#FFCCD5] text-sm font-bold text-[#FF4D6D] group-hover:bg-[#FF4D6D] group-hover:text-white transition-colors">➔</div>
+                </div>
+
+                <!-- Level 2 Card -->
+                <div onclick="selectLevel(2)" class="cursor-pointer bg-white border-2 border-[#FFCCD5] hover:border-[#FF4D6D] rounded-3xl p-5 text-center transition-all hover:-translate-y-1.5 magic-shadow relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-[#FFD3E8] text-[10px] px-3 py-1 rounded-bl-xl font-bold text-[#FF4D6D]">Level 2</div>
+                    <div class="text-4xl mb-3">🎈</div>
+                    <h3 class="text-lg text-[#FF4D6D] font-kids">Garis & Balon</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-semibold">Garis bilangan & pembulatan</p>
+                    <div class="mt-4 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FFF0F3] border border-[#FFCCD5] text-sm font-bold text-[#FF4D6D] group-hover:bg-[#FF4D6D] group-hover:text-white transition-colors">➔</div>
+                </div>
+
+                <!-- Level 3 Card -->
+                <div onclick="selectLevel(3)" class="cursor-pointer bg-white border-2 border-[#FFCCD5] hover:border-[#FF4D6D] rounded-3xl p-5 text-center transition-all hover:-translate-y-1.5 magic-shadow relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-[#FFD3E8] text-[10px] px-3 py-1 rounded-bl-xl font-bold text-[#FF4D6D]">Level 3</div>
+                    <div class="text-4xl mb-3">💎</div>
+                    <h3 class="text-lg text-[#FF4D6D] font-kids">Nilai Tempat</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-semibold">Pecahan angka & keping nilai</p>
+                    <div class="mt-4 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FFF0F3] border border-[#FFCCD5] text-sm font-bold text-[#FF4D6D] group-hover:bg-[#FF4D6D] group-hover:text-white transition-colors">➔</div>
+                </div>
+
+                <!-- Level 4 Card -->
+                <div onclick="selectLevel(4)" class="cursor-pointer bg-white border-2 border-[#FFCCD5] hover:border-[#FF4D6D] rounded-3xl p-5 text-center transition-all hover:-translate-y-1.5 magic-shadow relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-[#FFD3E8] text-[10px] px-3 py-1 rounded-bl-xl font-bold text-[#FF4D6D]">Level 4</div>
+                    <div class="text-4xl mb-3">🍭</div>
+                    <h3 class="text-lg text-[#FF4D6D] font-kids">Banding & Urut</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-semibold">Taman permen & kereta bilangan</p>
+                    <div class="mt-4 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FFF0F3] border border-[#FFCCD5] text-sm font-bold text-[#FF4D6D] group-hover:bg-[#FF4D6D] group-hover:text-white transition-colors">➔</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MAIN GAMEPLAY SCREEN ================= -->
+        <section id="screen-gameplay" class="hidden space-y-6">
+            <!-- Level Information bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between bg-white/50 p-4 rounded-2xl border border-[#FFCCD5] gap-3">
+                <button onclick="goBackToMap()" class="w-full sm:w-auto px-4 py-2 rounded-full bg-white border border-[#FFCCD5] hover:bg-[#FFF0F3] font-bold text-xs text-[#FF4D6D] transition-colors flex items-center justify-center gap-1">
+                    ⬅ Peta Kerajaan
+                </button>
+                <h2 id="gameplay-title" class="text-base md:text-lg text-[#FF4D6D] text-center font-kids">Nama Level</h2>
+                <div class="text-xs font-bold bg-[#FFCCD5] text-white px-3 py-1 rounded-full text-center" id="task-indicator">Tantangan 1/3</div>
+            </div>
+
+            <!-- Dialogue/Hint Area (Sophia character as Assistant) -->
+            <div class="bg-[#FFF5F7] border-2 border-[#FFCCD5] rounded-2xl p-4 flex gap-4 items-center shadow-inner">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shrink-0 border border-[#FFCCD5] text-xl floating-avatar">
+                    🌸
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs md:text-sm text-[#FF4D6D]">Petunjuk Spesifik Sophia 🌟:</h4>
+                    <p id="assistant-dialogue" class="text-xs leading-relaxed text-pink-700 italic font-semibold">Tunggu sebentar...</p>
+                </div>
+            </div>
+
+            <!-- Active Task Content Arena -->
+            <div id="gameplay-area" class="bg-white border-2 border-[#FFCCD5] rounded-3xl p-5 md:p-8 magic-shadow relative min-h-[350px] flex flex-col justify-between">
+                <!-- Inner puzzle nodes are generated inside here -->
+                <div id="level-content-root" class="space-y-6"></div>
+            </div>
+
+            <!-- Dynamic Error Feedback Panel (Lists explanations of mistakes in detail) -->
+            <div id="error-feedback-panel" class="hidden bg-red-50 border-2 border-red-200 rounded-2xl p-4 space-y-2">
+                <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                    ❌ <span>Ada beberapa jawaban yang keliru, coba kita lihat:</span>
+                </div>
+                <ul id="error-list" class="list-disc pl-5 text-xs text-red-700 space-y-1 font-medium">
+                    <!-- Dynamic mistakes are injected here -->
+                </ul>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-2">
+                <div id="validation-feedback" class="text-sm font-bold text-[#FF4D6D] animate-pulse"></div>
+                <button id="check-answer-btn" onclick="checkCurrentAnswer()" class="w-full sm:w-auto sparkle-btn px-8 py-3 rounded-full text-white font-bold tracking-wider text-sm md:text-base magic-shadow flex items-center justify-center gap-2">
+                    Periksa Jawaban! ✨
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Confetti Magic Overlay Canvas -->
+    <canvas id="confetti-canvas" class="pointer-events-none fixed inset-0 z-50 w-full h-full"></canvas>
+
+    <!-- Footer Credit -->
+    <footer class="p-4 text-center text-[10px] text-gray-400 font-bold border-t border-[#FFECEF] bg-white/40">
+        Sophia & Kerajaan Angka Ajaib &copy; 2026. Didesain secara edukatif berdasarkan Bahan Game Pertemuan 1_2.pdf.
+    </footer>
+
+    <script>
+        // Game State Variables
+        let currentLevel = 1;
+        let currentSubtask = 1;
+        let playerScore = 0;
+        let audioEnabled = true;
+        let audioCtx = null;
+
+        // Level Data Object mirroring the worksheets in Bahan Game Pertemuan 1_2.pdf
+        const levelData = {
+            1: {
+                title: "🧩 Labirin Kotak Ajaib",
+                tasks: [
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 1: Berpusat pada 46
+                        type: "grid",
+                        instructions: "Ayo lengkapi potongan kotak 100 ini!",
+                        hint: "Angka pusatnya adalah 46. Ingat aturan kotak 100: ke atas dikurangi 10 (46 - 10), ke bawah ditambah 10 (46 + 10), ke kiri dikurangi 1 (46 - 1), dan ke kanan ditambah 1 (46 + 1)!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '46', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "36", left: "45", right: "47", bottom: "56" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 1 (Bentuk U mulai dari 77)
+                        type: "grid",
+                        instructions: "Bantu Sophia melengkapi potongan bentuk U dari kotak 100 berikut!",
+                        hint: "Mulai dari kiri atas (77). Ke bawah bertambah 10 (77 ➔ 87 ➔ 97). Lalu ke kanan bertambah 1 (97 ➔ 98 ➔ 99 ➔ 100). Terakhir naik ke atas berkurang 10 (100 ➔ 90 ➔ 80)!",
+                        layout: [
+                            ['c11', null, null, 'c14'],
+                            ['c21', null, null, 'c24'],
+                            ['c31', 'c32', 'c33', 'c34']
+                        ],
+                        answers: {
+                            c11: "77", c21: "87", c31: "97",
+                            c32: "98", c33: "99", c34: "100",
+                            c24: "90", c14: "80"
+                        }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 1 (Bentuk L di sekitar 23)
+                        type: "grid",
+                        instructions: "Wah, ada potongan berbentuk L dengan angka 23. Mari lengkapi bagian yang kosong!",
+                        hint: "Gunakan angka 23 sebagai patokan utama. Di atasnya berkurang 10 (13, lalu 3). Di sebelah kiri 23 berkurang 1 (22). Di bawah 22 bertambah 10 (32, lalu 42)!",
+                        layout: [
+                            ['c11', null, null],
+                            ['c21', null, null],
+                            ['c31', 'c32', '23'],
+                            [null, 'c42', null],
+                            [null, 'c52', null]
+                        ],
+                        answers: {
+                            c11: "1", c21: "11", c31: "21",
+                            c32: "22", c42: "32", c52: "42"
+                        }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 1: Berpusat pada 52
+                        type: "grid",
+                        instructions: "Selesaikan tanda tambah ajaib yang berpusat di angka 52 ini!",
+                        hint: "Pusatnya 52. Di atasnya adalah 52 - 10. Di bawahnya 52 + 10. Di kirinya 52 - 1. Di kanannya 52 + 1!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '52', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "42", left: "51", right: "53", bottom: "62" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 2: Kotak 1000 berpusat pada 330
+                        type: "grid",
+                        instructions: "Sekarang kita masuk ke Kotak 1000! Ingat: Ke kanan +10, ke kiri -10, ke atas -100, ke bawah +100!",
+                        hint: "Untuk Kotak 1000, lompatan mendatar bernilai 10, lompatan tegak bernilai 100. Pusatnya adalah 330, jadi atasnya 330 - 100, kirinya 330 - 10!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '330', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "230", left: "320", right: "340", bottom: "430" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 3: Kotak 1000 berpusat pada 256
+                        type: "grid",
+                        instructions: "Ayo selesaikan potongan kotak 1000 untuk angka 256!",
+                        hint: "Gunakan aturan kotak 1000. Dari 256, atas berkurang 100 (156), bawah bertambah 100 (356), kiri berkurang 10 (246), kanan bertambah 10 (266)!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '256', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "156", left: "246", right: "266", bottom: "356" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 3: Kotak 1000 berpusat pada 132
+                        type: "grid",
+                        instructions: "Lengkapi potongan kotak 1000 untuk angka 132!",
+                        hint: "Pusatnya 132. Aturan kotak 1000 tetap berlaku: atas dikurang 100, kiri dikurang 10, kanan ditambah 10, bawah ditambah 100!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '132', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "32", left: "122", right: "142", bottom: "232" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 6: Kotak 1000 berpusat pada 320
+                        type: "grid",
+                        instructions: "Lengkapi potongan kotak 1000 untuk angka 320!",
+                        hint: "Mulai dari pusat 320. Atasnya dikurang 100 (220), bawahnya ditambah 100 (420), kirinya dikurang 10 (310), kanannya ditambah 10 (330)!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '320', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "220", left: "310", right: "330", bottom: "420" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 6: Kotak 1000 berpusat pada 890
+                        type: "grid",
+                        instructions: "Lengkapi potongan kotak 1000 untuk angka 890!",
+                        hint: "Mulai dari pusat 890. Ingat, ke atas dikurangi 100 (790) dan ke kanan ditambah 10 (900). Hitung perlahan ya!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '890', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "790", left: "880", right: "900", bottom: "990" }
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 6: Kotak 1000 berpusat pada 653
+                        type: "grid",
+                        instructions: "Tantangan terakhir kotak 1000! Lengkapi di sekeliling angka 653!",
+                        hint: "Ini adalah tantangan penutup untuk potongan kotak! Kurangi 100 untuk atas, tambah 100 untuk bawah. Kurangi 10 untuk kiri, tambah 10 untuk kanan!",
+                        layout: [
+                            [null, 'top', null],
+                            ['left', '653', 'right'],
+                            [null, 'bottom', null]
+                        ],
+                        answers: { top: "553", left: "643", right: "663", bottom: "753" }
+                    }
+                ]
+            },
+            2: {
+                title: "🎈 Garis & Balon Awan",
+                tasks: [
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 2: Garis bilangan 0-100
+                        type: "numberline",
+                        instructions: "Tandai angka 42 dan 87 pada garis bilangan di bawah!",
+                        hint: "Gunakan slider penggeser! Letakkan penanda pertama sedikit setelah angka 40 (untuk 42), dan penanda kedua di antara 80 dan 90 (untuk 87)!",
+                        targets: [
+                            { label: "Tandai angka 42", target: 42, min: 0, max: 100 },
+                            { label: "Tandai angka 87", target: 87, min: 0, max: 100 }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 1, No. 3: Bulatkan ke puluhan terdekat
+                        type: "rounding",
+                        instructions: "Letupkan balon angka dengan membulatkannya ke puluhan terdekat!",
+                        hint: "Aturan pembulatan: Lihat angka paling belakang (satuan). Jika satuannya kurang dari 5 (1, 2, 3, 4), bulatkan ke bawah. Jika satuannya 5 atau lebih (5, 6, 7, 8, 9), bulatkan ke atas!",
+                        questions: [
+                            { number: 72, answer: 70, explain: "Satuannya 2 (kurang dari 5), maka dibulatkan ke bawah menjadi 70." },
+                            { number: 29, answer: 30, explain: "Satuannya 9 (lebih dari 5), maka dibulatkan ke atas menjadi 30." },
+                            { number: 45, answer: 50, explain: "Satuannya adalah 5, maka dibulatkan ke atas menjadi 50." },
+                            { number: 60, answer: 60, explain: "Angka 60 sudah merupakan puluhan pas, jadi tetap 60." }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 8, No. 5: Garis bilangan 0-1000
+                        type: "numberline",
+                        instructions: "Mari tandai angka-angka dari Soal 4 pada garis bilangan raksasa 0 sampai 1000!",
+                        hint: "Ayo geser slider ke letak yang paling masuk akal. Contohnya, angka 48 berada di dekat angka 0, sedangkan 834 berada jauh di sebelah kanan melewati angka 800!",
+                        targets: [
+                            { label: "Tandai letak 48", target: 48, min: 0, max: 1000 },
+                            { label: "Tandai letak 384", target: 384, min: 0, max: 1000 },
+                            { label: "Tandai letak 438", target: 438, min: 0, max: 1000 },
+                            { label: "Tandai letak 483", target: 483, min: 0, max: 1000 },
+                            { label: "Tandai letak 834", target: 834, min: 0, max: 1000 }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 8, No. 6: Memperkirakan nilai pada garis bilangan
+                        type: "estimation",
+                        instructions: "Coba perkirakan angka dari letak bintang merah pada garis bilangan!",
+                        hint: "Bintang pertama terletak sangat dekat dengan angka 100 & 200, tebakan terbaik adalah 150. Bintang kedua terletak di antara 600 dan 700, tebakan terbaik adalah 680!",
+                        questions: [
+                            {
+                                positionPercent: 15, 
+                                label: "Berapa perkiraan nilai bintang pertama?",
+                                options: ["150", "450", "850"],
+                                correct: "150",
+                                explain: "Letak bintang dekat dengan awal garis bilangan (di bawah 200), jadi pilihan paling cocok adalah 150."
+                            },
+                            {
+                                positionPercent: 68, 
+                                label: "Berapa perkiraan nilai bintang kedua?",
+                                options: ["300", "680", "900"],
+                                correct: "680",
+                                explain: "Letak bintang melewati pertengahan garis (antara 600 dan 700), jadi pilihan paling cocok adalah 680."
+                            }
+                        ]
+                    }
+                ]
+            },
+            3: {
+                title: "💎 Istana Nilai Tempat",
+                tasks: [
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 3, No. 2: Menguraikan ratusan, puluhan, satuan
+                        type: "decomposition",
+                        instructions: "Mari uraikan bilangan-bilangan cantik ini menjadi Ratusan, Puluhan, dan Satuan!",
+                        hint: "Isi kolom dengan angka depannya saja sesuai posisi nilai tempat. Misalnya 479 artinya 4 ratusan (tulis 4), 7 puluhan (tulis 7), dan 9 satuan (tulis 9)!",
+                        questions: [
+                            { number: 479, placeholders: [4, 7, 9] },
+                            { number: 147, placeholders: [1, 4, 7] },
+                            { number: 782, placeholders: [7, 8, 2] },
+                            { number: 428, placeholders: [4, 2, 8] },
+                            { number: 913, placeholders: [9, 1, 3] }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 3, No. 2 (bawah): Penggabungan nilai tempat
+                        type: "decomposition_sum",
+                        instructions: "Ayo kita gabungkan nilai tempat terpisah ini menjadi bilangan yang utuh!",
+                        hint: "Tinggal satukan angka ratusan, puluhan, dan satuannya secara berurutan. Contoh: 500 + 70 + 6 menjadi 576!",
+                        questions: [
+                            { formula: "500 + 70 + 6 = ", answer: "576", explain: "500 (lima ratus), 70 (tujuh puluh), dan 6 (enam) digabung menjadi 576." },
+                            { formula: "300 + 90 + 5 = ", answer: "395", explain: "300 (tiga ratus), 90 (sembilan puluh), dan 5 (lima) digabung menjadi 395." }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 4, No. 3: Tabel nilai tempat
+                        type: "disks",
+                        instructions: "Hitung total keping nilai tempat di dalam kotak emas dan ketik bilangannya!",
+                        hint: "Hitung masing-masing keping. Bintang kuning bernilai 100, bunga pink bernilai 10, dan berlian biru bernilai 1. Gabungkan hasil hitunganmu menjadi angka ratusan!",
+                        questions: [
+                            { label: "Kotak Nilai Tempat A", hundreds: 3, tens: 4, ones: 2, answer: "342", explain: "Ada 3 ratusan (300), 4 puluhan (40), dan 2 satuan (2) sehingga nilainya 342." },
+                            { label: "Kotak Nilai Tempat B", hundreds: 5, tens: 0, ones: 6, answer: "506", explain: "Ada 5 ratusan (500), 0 puluhan (0), dan 6 satuan (6) sehingga nilainya 506." }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 4, No. 5: Nilai angka yang dilingkari kuning
+                        type: "circled_digits",
+                        instructions: "Berapakah nilai sebenarnya dari angka yang bersinar kuning terang di bawah ini?",
+                        hint: "Lihat letak posisi angka kuning tersebut! Jika di paling depan bernilai ratusan (misal: 200), di tengah bernilai puluhan (misal: 30), di belakang bernilai satuan (misal: 7)!",
+                        questions: [
+                            { num: "637", posName: "puluhan", display: "6 <span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>3</span> 7", answer: "30", explain: "Angka 3 berada di posisi tengah (puluhan), jadi nilainya adalah 30." },
+                            { num: "921", posName: "satuan", display: "9 2 <span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>1</span>", answer: "1", explain: "Angka 1 berada di posisi paling belakang (satuan), jadi nilainya adalah 1." },
+                            { num: "768", posName: "puluhan", display: "7 <span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>6</span> 8", answer: "60", explain: "Angka 6 berada di posisi tengah (puluhan), jadi nilainya adalah 60." },
+                            { num: "109", posName: "ratusan", display: "<span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>1</span> 0 9", answer: "100", explain: "Angka 1 berada di posisi depan (ratusan), jadi nilainya adalah 100." },
+                            { num: "394", posName: "puluhan", display: "3 <span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>9</span> 4", answer: "90", explain: "Angka 9 berada di posisi tengah (puluhan), jadi nilainya adalah 90." },
+                            { num: "253", posName: "ratusan", display: "<span class='bg-yellow-300 px-2 py-0.5 rounded-full font-kids text-[#FF4D6D]'>2</span> 5 3", answer: "200", explain: "Angka 2 berada di posisi depan (ratusan), jadi nilainya adalah 200." }
+                        ]
+                    }
+                ]
+            },
+            4: {
+                title: "🍭 Taman Banding & Urut",
+                tasks: [
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 7, No. 2: Membandingkan bilangan
+                        type: "comparison",
+                        instructions: "Bantu kepiting mencapit perbandingan yang benar dengan simbol < atau >!",
+                        hint: "Bandingkan dari angka ratusan terlebih dahulu. Mulut buaya/kepiting selalu terbuka ke arah angka yang lebih besar! Contoh: 458 lebih kecil (<) dari 643.",
+                        questions: [
+                            { left: 458, right: 643, answer: "<", explain: "Ratusan 4 kurang dari 6, jadi 458 lebih kecil (<) dari 643." },
+                            { left: 475, right: 472, answer: ">", explain: "Ratusan dan puluhan sama, tapi satuan 5 lebih dari 2, jadi 475 lebih besar (>) dari 472." },
+                            { left: 838, right: 883, answer: "<", explain: "Ratusan sama, tapi puluhan 3 kurang dari 8, jadi 838 lebih kecil (<) dari 883." }
+                        ]
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 7, No. 3: Mengurutkan terkecil ke terbesar
+                        type: "sorting",
+                        instructions: "Susun permen kereta angka ini mulai dari nilai yang PALING KECIL ke PALING BESAR!",
+                        hint: "Ketuk permen bulat di atas untuk memindahkannya ke dalam gerbong kereta secara berurutan. Mulai dari puluhan terkecil (38) hingga ratusan terbesar!",
+                        numbers: [679, 475, 621, 38, 563],
+                        correct: [38, 475, 563, 621, 679],
+                        descending: false
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 8, No. 4: Mengurutkan terbesar ke terkecil
+                        type: "sorting",
+                        instructions: "Bantu Sophia menyusun mahkota dari nilai yang PALING BESAR ke PALING KECIL!",
+                        hint: "Ketuk mutiara mahkota dari angka yang paling besar (834) hingga yang terkecil (48)!",
+                        numbers: [48, 834, 438, 384, 483],
+                        correct: [834, 483, 438, 384, 48],
+                        descending: true
+                    },
+                    {
+                        // Bahan Game Pertemuan 1_2.pdf Halaman 8, No. 7: Pertidaksamaan
+                        type: "inequalities",
+                        instructions: "Lengkapi kalimat pertidaksamaan di bawah agar menjadi pernyataan yang benar!",
+                        hint: "Ingat arah lambang pertidaksamaan! Contoh: '___ < 263' artinya kamu harus memilih angka yang nilainya lebih kecil dari 263, yaitu 150!",
+                        questions: [
+                            { expression: "___ < 263", options: ["150", "300", "450"], correct: "150", explain: "Tanda < berarti 'lebih kecil dari'. Dari pilihan yang ada, hanya 150 yang lebih kecil dari 263." },
+                            { expression: "671 < ___", options: ["500", "600", "800"], correct: "800", explain: "Tanda < berarti 671 harus lebih kecil dari titik-titik. Jadi, kita butuh angka yang lebih besar dari 671, yaitu 800." },
+                            { expression: "___ > 457", options: ["200", "400", "600"], correct: "600", explain: "Tanda > berarti 'lebih besar dari'. Kita butuh angka yang lebih besar dari 457, yaitu 600." },
+                            { expression: "346 > ___", options: ["150", "400", "500"], correct: "150", explain: "Tanda > berarti 346 harus lebih besar dari titik-titik. Kita butuh angka yang lebih kecil dari 346, yaitu 150." }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Web Audio Synthesizer for cute sound effects
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3); // C6
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'incorrect') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.25);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.25);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            }
+        }
+
+        function toggleSound() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('sound-btn').innerHTML = audioEnabled ? '🔊' : '🔇';
+            initAudio();
+            playSound('click');
+        }
+
+        // Confetti Particle System
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfetti() {
+            particles = [];
+            const colors = ['#FF758F', '#FFCCD5', '#FF7EB3', '#B5FFFC', '#FFE5EC', '#FFD1DC', '#FFE259'];
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 5 + 3,
+                    speedX: Math.random() * 4 - 2,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 8 - 4
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            particles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+                if (p.y < canvas.height) {
+                    active = true;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                }
+            });
+            if (active) {
+                requestAnimationFrame(animateConfetti);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Navigation Utilities
+        function selectLevel(lvl) {
+            currentLevel = lvl;
+            currentSubtask = 1;
+            document.getElementById('screen-map').classList.add('hidden');
+            document.getElementById('screen-gameplay').classList.remove('hidden');
+            document.getElementById('error-feedback-panel').classList.add('hidden');
+            loadLevelTask();
+            playSound('click');
+        }
+
+        function goBackToMap() {
+            document.getElementById('screen-gameplay').classList.add('hidden');
+            document.getElementById('screen-map').classList.remove('hidden');
+            document.getElementById('error-feedback-panel').classList.add('hidden');
+            playSound('click');
+        }
+
+        function startFirstLevel() {
+            selectLevel(1);
+        }
+
+        // Task display director
+        function loadLevelTask() {
+            const level = levelData[currentLevel];
+            const task = level.tasks[currentSubtask - 1];
+
+            document.getElementById('gameplay-title').innerText = level.title;
+            document.getElementById('task-indicator').innerText = `Tantangan ${currentSubtask}/${level.tasks.length}`;
+            document.getElementById('assistant-dialogue').innerText = task.hint; 
+            document.getElementById('validation-feedback').innerText = "";
+            document.getElementById('error-feedback-panel').classList.add('hidden');
+
+            const root = document.getElementById('level-content-root');
+            root.innerHTML = ''; 
+
+            // Dispatch renderings based on task template
+            if (task.type === "grid") {
+                renderGridTask(task, root);
+            } else if (task.type === "numberline") {
+                renderNumberLineTask(task, root);
+            } else if (task.type === "rounding") {
+                renderRoundingTask(task, root);
+            } else if (task.type === "estimation") {
+                renderEstimationTask(task, root);
+            } else if (task.type === "decomposition") {
+                renderDecompositionTask(task, root);
+            } else if (task.type === "decomposition_sum") {
+                renderDecompositionSumTask(task, root);
+            } else if (task.type === "disks") {
+                renderDisksTask(task, root);
+            } else if (task.type === "circled_digits") {
+                renderCircledDigitsTask(task, root);
+            } else if (task.type === "comparison") {
+                renderComparisonTask(task, root);
+            } else if (task.type === "sorting") {
+                renderSortingTask(task, root);
+            } else if (task.type === "inequalities") {
+                renderInequalitiesTask(task, root);
+            }
+        }
+
+        // Render 100 & 1000 Grids
+        function renderGridTask(task, container) {
+            const table = document.createElement('div');
+            table.className = "flex flex-col items-center justify-center gap-2 py-4";
+
+            task.layout.forEach((row) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = "flex gap-2 justify-center items-center";
+
+                row.forEach((cell) => {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = "w-16 h-16 flex items-center justify-center rounded-2xl text-base md:text-lg font-bold";
+
+                    if (cell === null) {
+                        cellDiv.className += " bg-transparent";
+                    } else if (!isNaN(cell)) {
+                        cellDiv.className += " bg-[#FFF0F3] border-2 border-[#FFCCD5] text-[#FF4D6D] font-kids";
+                        cellDiv.innerText = cell;
+                    } else {
+                        const input = document.createElement('input');
+                        input.type = "text";
+                        input.inputMode = "numeric";
+                        input.pattern = "[0-9]*";
+                        input.placeholder = "?";
+                        input.className = "w-16 h-16 rounded-2xl grid-input text-center text-lg";
+                        input.dataset.key = cell;
+                        cellDiv.appendChild(input);
+                    }
+                    rowDiv.appendChild(cellDiv);
+                });
+                table.appendChild(rowDiv);
+            });
+            container.appendChild(table);
+        }
+
+        // Render Interactive Sliders with cloud visual ticks
+        function renderNumberLineTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-6 py-4";
+
+            task.targets.forEach((item, idx) => {
+                const box = document.createElement('div');
+                box.className = "bg-[#FFF9FA] border border-[#FFCCD5] p-5 rounded-2xl space-y-4 shadow-sm";
+
+                const label = document.createElement('div');
+                label.className = "flex justify-between items-center text-sm font-bold text-gray-600";
+                label.innerHTML = `<span>${item.label}</span> <span class="text-[#FF4D6D] font-kids text-lg" id="line-val-${idx}">${item.min}</span>`;
+
+                const sliderContainer = document.createElement('div');
+                sliderContainer.className = "relative flex items-center h-8 my-2";
+
+                const bar = document.createElement('div');
+                bar.className = "absolute left-0 right-0 h-3 bg-gradient-to-r from-pink-100 to-[#F3E7FF] rounded-full border border-pink-200";
+
+                const ticks = 10;
+                for (let i = 0; i <= ticks; i++) {
+                    const tick = document.createElement('div');
+                    tick.className = "absolute w-0.5 h-3 bg-pink-300";
+                    tick.style.left = `${(i / ticks) * 100}%`;
+
+                    const numLabel = document.createElement('span');
+                    numLabel.className = "absolute text-[9px] text-pink-400 font-bold -bottom-5 -translate-x-1/2";
+                    numLabel.innerText = Math.round(item.min + (i / ticks) * (item.max - item.min));
+
+                    tick.appendChild(numLabel);
+                    bar.appendChild(tick);
+                }
+
+                const slider = document.createElement('input');
+                slider.type = "range";
+                slider.min = item.min;
+                slider.max = item.max;
+                slider.value = item.min;
+                slider.className = "w-full h-full cursor-pointer opacity-80 accent-[#FF4D6D] relative z-10";
+                slider.dataset.idx = idx;
+
+                slider.oninput = function() {
+                    document.getElementById(`line-val-${idx}`).innerText = this.value;
+                    playSound('click');
+                };
+
+                sliderContainer.appendChild(bar);
+                sliderContainer.appendChild(slider);
+                box.appendChild(label);
+                box.appendChild(sliderContainer);
+                wrapper.appendChild(box);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Render Rounding Game layout
+        function renderRoundingTask(task, container) {
+            const grid = document.createElement('div');
+            grid.className = "grid grid-cols-2 md:grid-cols-4 gap-4 py-4";
+
+            task.questions.forEach((q, idx) => {
+                const box = document.createElement('div');
+                box.className = "bg-[#FFF9FA] border-2 border-dashed border-[#FFCCD5] rounded-3xl p-4 flex flex-col items-center justify-between shadow-sm space-y-4";
+
+                const balloon = document.createElement('div');
+                balloon.className = "w-16 h-20 bg-gradient-to-br from-[#FF758F] to-[#FF7EB3] rounded-full flex flex-col items-center justify-center text-white font-kids text-lg relative shadow-md floating-avatar";
+                balloon.innerHTML = `
+                    <span>${q.number}</span>
+                    <div class="absolute -bottom-1 w-2 h-2 bg-[#FF758F] rotate-45"></div>
+                `;
+
+                const form = document.createElement('div');
+                form.className = "text-center w-full";
+                
+                const label = document.createElement('div');
+                label.className = "text-[10px] text-gray-400 font-bold mb-1";
+                label.innerText = "Puluhan terdekat:";
+
+                const input = document.createElement('input');
+                input.type = "text";
+                input.inputMode = "numeric";
+                input.pattern = "[0-9]*";
+                input.placeholder = "?";
+                input.className = "w-full py-1.5 grid-input rounded-xl text-center text-sm font-bold";
+                input.dataset.idx = idx;
+
+                form.appendChild(label);
+                form.appendChild(input);
+                box.appendChild(balloon);
+                box.appendChild(form);
+                grid.appendChild(box);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Render Estimate Question Panel
+        function renderEstimationTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-6 py-4";
+
+            task.questions.forEach((q, qIdx) => {
+                const box = document.createElement('div');
+                box.className = "bg-[#FFF9FA] border border-[#FFCCD5] p-5 rounded-2xl space-y-4 shadow-sm";
+
+                const lineContainer = document.createElement('div');
+                lineContainer.className = "relative h-12 flex items-center my-3 bg-pink-50 rounded-full border border-pink-100";
+
+                const startLabel = document.createElement('div');
+                startLabel.className = "absolute left-2 text-[10px] text-pink-400 font-bold";
+                startLabel.innerText = "0";
+
+                const endLabel = document.createElement('div');
+                endLabel.className = "absolute right-2 text-[10px] text-pink-400 font-bold";
+                endLabel.innerText = "1000";
+
+                const star = document.createElement('div');
+                star.className = "absolute w-7 h-7 flex items-center justify-center text-lg -translate-x-1/2 floating-avatar";
+                star.style.left = `${q.positionPercent}%`;
+                star.innerHTML = "⭐";
+
+                lineContainer.appendChild(startLabel);
+                lineContainer.appendChild(endLabel);
+                lineContainer.appendChild(star);
+
+                const label = document.createElement('div');
+                label.className = "text-sm font-bold text-gray-600";
+                label.innerText = q.label;
+
+                const optionsRow = document.createElement('div');
+                optionsRow.className = "flex gap-3 justify-center pt-2";
+
+                q.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = "px-5 py-2 rounded-xl bg-white border border-[#FFCCD5] hover:bg-[#FFF0F3] font-kids text-[#FF4D6D] text-sm transition-all";
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        Array.from(optionsRow.children).forEach(b => b.classList.remove('bg-pink-100', 'border-pink-400'));
+                        btn.classList.add('bg-pink-100', 'border-pink-400');
+                        btn.dataset.selected = "true";
+                        optionsRow.dataset.value = opt;
+                        playSound('click');
+                    };
+                    optionsRow.appendChild(btn);
+                });
+
+                box.appendChild(lineContainer);
+                box.appendChild(label);
+                box.appendChild(optionsRow);
+                wrapper.appendChild(box);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Render 3-Digit decomposition splits
+        function renderDecompositionTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-4 py-2";
+
+            task.questions.forEach((q, qIdx) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col sm:flex-row items-center justify-between bg-[#FFFDFE] p-4 rounded-2xl border border-[#FFCCD5] gap-4 shadow-sm";
+
+                const label = document.createElement('div');
+                label.className = "text-xl font-kids text-[#FF4D6D]";
+                label.innerText = q.number;
+
+                const equal = document.createElement('div');
+                equal.className = "text-lg font-bold text-pink-300 hidden sm:block";
+                equal.innerText = "=";
+
+                const inputContainer = document.createElement('div');
+                inputContainer.className = "flex items-center gap-2 font-bold text-gray-500 text-sm md:text-base";
+
+                const in1 = document.createElement('input');
+                in1.type = "text";
+                in1.inputMode = "numeric";
+                in1.pattern = "[0-9]*";
+                in1.placeholder = "?";
+                in1.className = "w-12 h-10 rounded-xl grid-input text-center font-kids";
+                in1.dataset.row = qIdx;
+                in1.dataset.col = 0;
+
+                const t1 = document.createElement('span');
+                t1.innerText = "ratusan +";
+
+                const in2 = document.createElement('input');
+                in2.type = "text";
+                in2.inputMode = "numeric";
+                in2.pattern = "[0-9]*";
+                in2.placeholder = "?";
+                in2.className = "w-12 h-10 rounded-xl grid-input text-center font-kids";
+                in2.dataset.row = qIdx;
+                in2.dataset.col = 1;
+
+                const t2 = document.createElement('span');
+                t2.innerText = "puluhan +";
+
+                const in3 = document.createElement('input');
+                in3.type = "text";
+                in3.inputMode = "numeric";
+                in3.pattern = "[0-9]*";
+                in3.placeholder = "?";
+                in3.className = "w-12 h-10 rounded-xl grid-input text-center font-kids";
+                in3.dataset.row = qIdx;
+                in3.dataset.col = 2;
+
+                const t3 = document.createElement('span');
+                t3.innerText = "satuan";
+
+                inputContainer.appendChild(in1);
+                inputContainer.appendChild(t1);
+                inputContainer.appendChild(in2);
+                inputContainer.appendChild(t2);
+                inputContainer.appendChild(in3);
+                inputContainer.appendChild(t3);
+
+                row.appendChild(label);
+                row.appendChild(equal);
+                row.appendChild(inputContainer);
+                wrapper.appendChild(row);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Render 500 + 70 + 6 format
+        function renderDecompositionSumTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-4 py-2";
+
+            task.questions.forEach((q, idx) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col sm:flex-row items-center justify-between bg-[#FFFDFE] p-4 rounded-2xl border border-[#FFCCD5] gap-4 shadow-sm";
+
+                const formula = document.createElement('div');
+                formula.className = "text-lg md:text-xl font-kids text-gray-600";
+                formula.innerText = q.formula;
+
+                const input = document.createElement('input');
+                input.type = "text";
+                input.inputMode = "numeric";
+                input.pattern = "[0-9]*";
+                input.placeholder = "?";
+                input.className = "w-28 h-10 rounded-xl grid-input text-center text-lg";
+                input.dataset.idx = idx;
+
+                row.appendChild(formula);
+                row.appendChild(input);
+                wrapper.appendChild(row);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Render visual gold/pink/blue coin groups
+        function renderDisksTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-6 py-2";
+
+            task.questions.forEach((q, qIdx) => {
+                const box = document.createElement('div');
+                box.className = "bg-[#FFF9FA] border border-[#FFCCD5] p-5 rounded-2xl space-y-4 shadow-sm";
+
+                const label = document.createElement('h4');
+                label.className = "text-xs md:text-sm font-bold text-gray-500";
+                label.innerText = q.label;
+
+                const diskArea = document.createElement('div');
+                diskArea.className = "flex flex-wrap gap-3 justify-center bg-white p-4 rounded-xl border border-pink-100 min-h-[60px]";
+
+                for (let i = 0; i < q.hundreds; i++) {
+                    const disk = document.createElement('div');
+                    disk.className = "w-11 h-11 bg-yellow-100 border-2 border-yellow-400 text-yellow-700 font-kids text-[10px] rounded-full flex flex-col items-center justify-center shadow-sm floating-avatar";
+                    disk.innerHTML = "⭐<span>100</span>";
+                    diskArea.appendChild(disk);
+                }
+
+                for (let i = 0; i < q.tens; i++) {
+                    const disk = document.createElement('div');
+                    disk.className = "w-9 h-9 bg-pink-100 border-2 border-pink-400 text-pink-700 font-kids text-[9px] rounded-full flex flex-col items-center justify-center shadow-sm";
+                    disk.innerHTML = "🌸<span>10</span>";
+                    diskArea.appendChild(disk);
+                }
+
+                for (let i = 0; i < q.ones; i++) {
+                    const disk = document.createElement('div');
+                    disk.className = "w-8 h-8 bg-blue-100 border-2 border-blue-400 text-blue-700 font-kids text-[8px] rounded-full flex flex-col items-center justify-center shadow-sm";
+                    disk.innerHTML = "💎<span>1</span>";
+                    diskArea.appendChild(disk);
+                }
+
+                const resultRow = document.createElement('div');
+                resultRow.className = "flex items-center justify-center gap-3";
+
+                const resLabel = document.createElement('span');
+                resLabel.className = "text-xs md:text-sm font-bold text-gray-600";
+                resLabel.innerText = "Total bilangan 3-angka:";
+
+                const input = document.createElement('input');
+                input.type = "text";
+                input.inputMode = "numeric";
+                input.pattern = "[0-9]*";
+                input.placeholder = "?";
+                input.className = "w-24 h-9 rounded-xl grid-input text-center font-kids";
+                input.dataset.idx = qIdx;
+
+                resultRow.appendChild(resLabel);
+                resultRow.appendChild(input);
+
+                box.appendChild(label);
+                box.appendChild(diskArea);
+                box.appendChild(resultRow);
+                wrapper.appendChild(box);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Render digit highlight yellow cards
+        function renderCircledDigitsTask(task, container) {
+            const grid = document.createElement('div');
+            grid.className = "grid grid-cols-2 sm:grid-cols-3 gap-4 py-4";
+
+            task.questions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-[#FFF9FA] border border-[#FFCCD5] rounded-2xl p-4 flex flex-col items-center justify-center space-y-3 shadow-sm";
+
+                const formula = document.createElement('div');
+                formula.className = "text-xl font-kids text-gray-600 tracking-wider";
+                formula.innerHTML = q.display;
+
+                const input = document.createElement('input');
+                input.type = "text";
+                input.inputMode = "numeric";
+                input.pattern = "[0-9]*";
+                input.placeholder = "Nilai?";
+                input.className = "w-full py-1.5 grid-input rounded-xl text-center text-sm font-bold";
+                input.dataset.idx = idx;
+
+                card.appendChild(formula);
+                card.appendChild(input);
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Render comparison selects
+        function renderComparisonTask(task, container) {
+            const grid = document.createElement('div');
+            grid.className = "space-y-4 py-4";
+
+            task.questions.forEach((q, idx) => {
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-center gap-4 bg-[#FFF9FA] p-4 rounded-2xl border border-pink-100 shadow-sm";
+
+                const leftNode = document.createElement('div');
+                leftNode.className = "w-20 h-20 bg-gradient-to-br from-pink-200 to-rose-300 rounded-2xl flex items-center justify-center text-white font-kids text-lg shadow-sm";
+                leftNode.innerText = q.left;
+
+                const selectNode = document.createElement('select');
+                selectNode.className = "w-14 h-12 rounded-xl text-center font-kids text-xl text-[#FF4D6D] border-2 border-[#FFCCD5] bg-white cursor-pointer hover:bg-pink-50";
+                selectNode.innerHTML = `
+                    <option value="">?</option>
+                    <option value="<">&lt;</option>
+                    <option value=">">&gt;</option>
+                `;
+                selectNode.dataset.idx = idx;
+
+                const rightNode = document.createElement('div');
+                rightNode.className = "w-20 h-20 bg-gradient-to-br from-pink-200 to-rose-300 rounded-2xl flex items-center justify-center text-white font-kids text-lg shadow-sm";
+                rightNode.innerText = q.right;
+
+                row.appendChild(leftNode);
+                row.appendChild(selectNode);
+                row.appendChild(rightNode);
+                grid.appendChild(row);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Render Sorting layout with dynamic state arrays
+        let activeSortState = [];
+        function renderSortingTask(task, container) {
+            activeSortState = [];
+
+            const instructions = document.createElement('p');
+            instructions.className = "text-[10px] md:text-xs text-pink-400 font-bold text-center italic mb-2";
+            instructions.innerText = "✨ Petunjuk Cepat: Ketuk permen di kotak atas untuk menaruhnya ke gerbong kosong secara berurutan!";
+            container.appendChild(instructions);
+
+            const sourceGroup = document.createElement('div');
+            sourceGroup.className = "flex flex-wrap gap-3 justify-center p-4 bg-[#FFFDFE] border border-pink-100 rounded-2xl";
+            sourceGroup.id = "sorting-sources";
+
+            const shuffled = [...task.numbers].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(num => {
+                const node = document.createElement('div');
+                node.className = "px-4 py-2 bg-gradient-to-r from-pink-400 to-[#FF7EB3] border-2 border-pink-300 rounded-full text-white font-kids text-sm cursor-pointer hover:scale-105 active:scale-95 transition-transform shadow-sm";
+                node.innerText = num;
+                node.dataset.num = num;
+                node.onclick = () => {
+                    handleSortingNodeSelection(num, node);
+                };
+                sourceGroup.appendChild(node);
+            });
+
+            const targetGroup = document.createElement('div');
+            targetGroup.className = "flex flex-wrap gap-3 justify-center pt-4";
+            targetGroup.id = "sorting-targets";
+
+            task.numbers.forEach((_, idx) => {
+                const cart = document.createElement('div');
+                cart.className = "w-20 h-16 bg-[#FFF9FA] border-2 border-dashed border-[#FFCCD5] rounded-2xl flex flex-col items-center justify-center text-sm font-kids text-[#FF4D6D] relative cursor-pointer hover:bg-[#FFF0F3] transition-colors";
+                cart.dataset.slotIdx = idx;
+
+                const indicator = document.createElement('span');
+                indicator.className = "text-[9px] text-pink-300 absolute top-1";
+                indicator.innerText = `Gerbong ${idx + 1}`;
+
+                const valNode = document.createElement('span');
+                valNode.className = "text-base font-kids text-[#FF4D6D] mt-2";
+                valNode.id = `cart-val-${idx}`;
+                valNode.innerText = "-";
+
+                cart.appendChild(indicator);
+                cart.appendChild(valNode);
+                
+                cart.onclick = () => {
+                    if (activeSortState[idx]) {
+                        const returnedVal = activeSortState[idx];
+                        activeSortState[idx] = null;
+                        valNode.innerText = "-";
+                        
+                        const sourceNode = Array.from(sourceGroup.children).find(b => b.dataset.num == returnedVal);
+                        if (sourceNode) {
+                            sourceNode.classList.remove('opacity-30', 'pointer-events-none');
+                        }
+                        playSound('click');
+                    }
+                };
+
+                targetGroup.appendChild(cart);
+            });
+
+            container.appendChild(sourceGroup);
+            container.appendChild(targetGroup);
+        }
+
+        function handleSortingNodeSelection(num, node) {
+            const level = levelData[currentLevel];
+            const task = level.tasks[currentSubtask - 1];
+            
+            let slot = -1;
+            for (let i = 0; i < task.numbers.length; i++) {
+                if (!activeSortState[i]) {
+                    slot = i;
+                    break;
+                }
+            }
+
+            if (slot !== -1) {
+                activeSortState[slot] = num;
+                document.getElementById(`cart-val-${slot}`).innerText = num;
+                node.classList.add('opacity-30', 'pointer-events-none');
+                playSound('click');
+            }
+        }
+
+        // Render Inequalities dropdown list
+        function renderInequalitiesTask(task, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "space-y-4 py-2";
+
+            task.questions.forEach((q, idx) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col sm:flex-row items-center justify-between bg-[#FFFDFE] p-4 rounded-2xl border border-pink-100 shadow-sm gap-4";
+
+                const display = document.createElement('div');
+                display.className = "text-lg font-kids text-gray-600";
+                display.innerText = q.expression;
+
+                const select = document.createElement('select');
+                select.className = "w-36 py-2 rounded-xl text-center font-kids text-[#FF4D6D] border-2 border-[#FFCCD5] bg-white cursor-pointer hover:bg-pink-50";
+                select.dataset.idx = idx;
+
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = "";
+                defaultOpt.innerText = "Pilih angka?";
+                select.appendChild(defaultOpt);
+
+                q.options.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt;
+                    o.innerText = opt;
+                    select.appendChild(o);
+                });
+
+                row.appendChild(display);
+                row.appendChild(select);
+                wrapper.appendChild(row);
+            });
+
+            container.appendChild(wrapper);
+        }
+
+        // Core Answer Verification Module with Detail Explanation of mistakes
+        function checkCurrentAnswer() {
+            const level = levelData[currentLevel];
+            const task = level.tasks[currentSubtask - 1];
+            const root = document.getElementById('level-content-root');
+            
+            let isCorrect = true;
+            let errorListHTML = ""; // To hold feedback reasons
+
+            if (task.type === "grid") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const key = input.dataset.key;
+                    const userVal = input.value.trim();
+                    const correctVal = task.answers[key];
+                    
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Kotak <b>${getGridPositionName(key)}</b> masih kosong. Silakan diisi terlebih dahulu!</li>`;
+                    } else if (correctVal !== userVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        
+                        let reason = "";
+                        if (key === 'top') {
+                            const centerVal = parseInt(task.layout[1].find(cell => !isNaN(cell)));
+                            reason = `Kotak <b>Atas</b> harusnya berkurang 10 dari pusat (${centerVal} - 10 = ${correctVal}), tapi kamu mengisi ${userVal}.`;
+                        } else if (key === 'bottom') {
+                            const centerVal = parseInt(task.layout[1].find(cell => !isNaN(cell)));
+                            reason = `Kotak <b>Bawah</b> harusnya bertambah 10 dari pusat (${centerVal} + 10 = ${correctVal}), tapi kamu mengisi ${userVal}.`;
+                        } else if (key === 'left') {
+                            const centerVal = parseInt(task.layout[1].find(cell => !isNaN(cell)));
+                            reason = `Kotak <b>Kiri</b> harusnya berkurang 1 dari pusat (${centerVal} - 1 = ${correctVal}), tapi kamu mengisi ${userVal}.`;
+                        } else if (key === 'right') {
+                            const centerVal = parseInt(task.layout[1].find(cell => !isNaN(cell)));
+                            reason = `Kotak <b>Kanan</b> harusnya bertambah 1 dari pusat (${centerVal} + 1 = ${correctVal}), tapi kamu mengisi ${userVal}.`;
+                        } else {
+                            reason = `Kotak di posisi <b>${getGridPositionName(key)}</b> seharusnya berisi ${correctVal}, tapi kamu mengisi ${userVal}.`;
+                        }
+                        errorListHTML += `<li>${reason}</li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "numberline") {
+                const inputs = root.querySelectorAll('input[type="range"]');
+                inputs.forEach((slider, idx) => {
+                    const val = parseInt(slider.value);
+                    const target = task.targets[idx].target;
+                    const label = task.targets[idx].label;
+                    
+                    // Allowance range +/- 5
+                    if (Math.abs(val - target) > 5) {
+                        isCorrect = false;
+                        slider.classList.add('accent-red-500');
+                        errorListHTML += `<li>Tanda untuk <b>${label}</b> diletakkan di posisi ${val}. Targetnya adalah ${target}. Coba geser slider agar lebih mendekati target!</li>`;
+                    } else {
+                        slider.classList.remove('accent-red-500');
+                    }
+                });
+            } else if (task.type === "rounding") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const idx = input.dataset.idx;
+                    const userVal = input.value.trim();
+                    const question = task.questions[idx];
+                    const correctVal = question.answer;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Pembulatan angka <b>${question.number}</b> masih belum diisi!</li>`;
+                    } else if (parseInt(userVal) !== correctVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Pembulatan angka <b>${question.number}</b> keliru: Kamu mengisi ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "estimation") {
+                const selectorGroup = root.querySelector('[data-value]');
+                const rows = root.querySelectorAll('[data-value]');
+                
+                rows.forEach((row, idx) => {
+                    const userVal = row.dataset.value;
+                    const question = task.questions[idx];
+                    const correctVal = question.correct;
+
+                    if (!userVal) {
+                        isCorrect = false;
+                        errorListHTML += `<li>Kamu belum memilih perkiraan untuk <b>bintang ${idx+1}</b>!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        errorListHTML += `<li>Perkiraan untuk <b>bintang ${idx+1}</b> keliru: Kamu memilih ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    }
+                });
+            } else if (task.type === "decomposition") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const r = input.dataset.row;
+                    const c = input.dataset.col;
+                    const userVal = input.value.trim();
+                    const correctVal = task.questions[r].placeholders[c];
+                    const placeName = c == 0 ? "Ratusan" : c == 1 ? "Puluhan" : "Satuan";
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Angka <b>${task.questions[r].number}</b> bagian <b>${placeName}</b> masih kosong!</li>`;
+                    } else if (parseInt(userVal) !== correctVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Uraian angka <b>${task.questions[r].number}</b> pada bagian <b>${placeName}</b> salah. Kamu menulis ${userVal}, yang benar adalah ${correctVal}.</li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "decomposition_sum") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const idx = input.dataset.idx;
+                    const userVal = input.value.trim();
+                    const question = task.questions[idx];
+                    const correctVal = question.answer;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Hasil penjumlahan <b>${question.formula}</b> masih kosong!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Hasil penjumlahan <b>${question.formula}</b> salah. Kamu menjawab ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "disks") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const idx = input.dataset.idx;
+                    const userVal = input.value.trim();
+                    const question = task.questions[idx];
+                    const correctVal = question.answer;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Jawaban untuk <b>${question.label}</b> masih belum diisi!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Jawaban untuk <b>${question.label}</b> kurang tepat: Kamu menjawab ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "circled_digits") {
+                const inputs = root.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const idx = input.dataset.idx;
+                    const userVal = input.value.trim();
+                    const question = task.questions[idx];
+                    const correctVal = question.answer;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Nilai angka kuning pada bilangan <b>${question.num}</b> masih kosong!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        input.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Nilai angka kuning pada bilangan <b>${question.num}</b> salah: Kamu menjawab ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        input.classList.remove('border-red-400', 'bg-red-50');
+                    }
+                });
+            } else if (task.type === "comparison") {
+                const selects = root.querySelectorAll('select');
+                selects.forEach(sel => {
+                    const idx = sel.dataset.idx;
+                    const question = task.questions[idx];
+                    const userVal = sel.value;
+                    const correctVal = question.answer;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        sel.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Kamu belum memilih simbol untuk perbandingan <b>${question.left} dan ${question.right}</b>!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        sel.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Simbol perbandingan <b>${question.left} dan ${question.right}</b> salah. Kamu memilih '${userVal}'. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        sel.classList.remove('border-red-400', 'bg-[#FFF9FA]');
+                    }
+                });
+            } else if (task.type === "sorting") {
+                // Verify all slots are filled
+                let filledAll = true;
+                for (let i = 0; i < task.correct.length; i++) {
+                    if (!activeSortState[i]) {
+                        filledAll = false;
+                    }
+                }
+
+                if (!filledAll) {
+                    isCorrect = false;
+                    errorListHTML += `<li>Gerbong keretamu masih belum lengkap semua! Tolong ketuk sisa permen di atas.</li>`;
+                } else {
+                    // Check order
+                    for (let i = 0; i < task.correct.length; i++) {
+                        if (activeSortState[i] !== task.correct[i]) {
+                            isCorrect = false;
+                        }
+                    }
+                    if (!isCorrect) {
+                        const targetOrderStr = task.correct.join(" ➔ ");
+                        const currentOrderStr = activeSortState.join(" ➔ ");
+                        errorListHTML += `<li>Urutan keretamu saat ini: <b>${currentOrderStr}</b> masih keliru. <i>Urutan yang benar adalah: ${targetOrderStr}</i>.</li>`;
+                    }
+                }
+            } else if (task.type === "inequalities") {
+                const selects = root.querySelectorAll('select');
+                selects.forEach(sel => {
+                    const idx = sel.dataset.idx;
+                    const userVal = sel.value;
+                    const question = task.questions[idx];
+                    const correctVal = question.correct;
+
+                    if (userVal === "") {
+                        isCorrect = false;
+                        sel.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Pernyataan pertidaksamaan <b>${question.expression}</b> belum kamu lengkapi!</li>`;
+                    } else if (userVal !== correctVal) {
+                        isCorrect = false;
+                        sel.classList.add('border-red-400', 'bg-red-50');
+                        errorListHTML += `<li>Pernyataan pertidaksamaan <b>${question.expression}</b> keliru. Kamu memilih ${userVal}. <i>Penjelasan: ${question.explain}</i></li>`;
+                    } else {
+                        sel.classList.remove('border-red-400', 'bg-[#FFF9FA]');
+                    }
+                });
+            }
+
+            // Display Feedback Box depending on evaluation result
+            const feedbackPanel = document.getElementById('error-feedback-panel');
+            const errorList = document.getElementById('error-list');
+
+            if (isCorrect) {
+                playSound('correct');
+                triggerConfetti();
+                addScore(100);
+                feedbackPanel.classList.add('hidden');
+
+                document.getElementById('validation-feedback').innerText = "Hebat! Semua jawabanmu benar! 💖✨";
+                document.getElementById('validation-feedback').className = "text-sm font-bold text-green-500 animate-bounce";
+
+                setTimeout(() => {
+                    if (currentSubtask < level.tasks.length) {
+                        currentSubtask++;
+                        loadLevelTask();
+                    } else {
+                        showLevelSuccessScreen();
+                    }
+                }, 2000);
+            } else {
+                playSound('incorrect');
+                feedbackPanel.classList.remove('hidden');
+                errorList.innerHTML = errorListHTML;
+
+                document.getElementById('validation-feedback').innerText = "Ada beberapa hal yang harus dibenarkan, cantik! Lihat petunjuk di bawah ya! 💪🌸";
+                document.getElementById('validation-feedback').className = "text-sm font-bold text-[#FF4D6D]";
+            }
+        }
+
+        // Helper to format grid names in Indonesian
+        function getGridPositionName(key) {
+            if (key === 'top') return 'Atas';
+            if (key === 'bottom') return 'Bawah';
+            if (key === 'left') return 'Kiri';
+            if (key === 'right') return 'Kanan';
+            if (key === 'c11') return 'Kiri Paling Atas';
+            if (key === 'c21') return 'Kiri Tengah';
+            if (key === 'c31') return 'Kiri Sejajar 23';
+            if (key === 'c32') return 'Tengah Sejajar 23';
+            if (key === 'c42') return 'Tengah Bawah 1';
+            if (key === 'c52') return 'Tengah Bawah 2';
+            if (key === 'c14') return 'Kanan Paling Atas';
+            if (key === 'c24') return 'Kanan Tengah';
+            if (key === 'c34') return 'Kanan Sejajar Bawah';
+            if (key === 'c33') return 'Tengah Bawah Kanan';
+            return key;
+        }
+
+        function showLevelSuccessScreen() {
+            triggerConfetti();
+            const root = document.getElementById('level-content-root');
+            root.innerHTML = `
+                <div class="text-center space-y-6 py-8 animate-fade-in">
+                    <div class="text-6xl">👑💖🏆</div>
+                    <h3 class="text-2xl md:text-3xl text-[#FF4D6D] font-kids">Sempurna!</h3>
+                    <p class="text-sm max-w-sm mx-auto font-medium">Kamu berhasil menyelesaikan seluruh tantangan di <strong>${levelData[currentLevel].title}</strong> dengan baik! Sophia sangat bangga padamu!</p>
+                    <button onclick="goBackToMap()" class="sparkle-btn px-8 py-3 rounded-full text-white font-bold tracking-wider text-sm magic-shadow">
+                        Kembali ke Peta Utama! ✨
+                    </button>
+                </div>
+            `;
+            document.getElementById('check-answer-btn').classList.add('hidden');
+        }
+
+        function addScore(pts) {
+            playerScore += pts;
+            document.getElementById('player-score').innerText = playerScore;
+        }
+
+        const originalSelectLevel = selectLevel;
+        selectLevel = function(lvl) {
+            originalSelectLevel(lvl);
+            const checkBtn = document.getElementById('check-answer-btn');
+            if (checkBtn) {
+                checkBtn.classList.remove('hidden');
+            }
+        };
+
+        window.onload = function() {
+            initAudio();
+        };
+    </script>
+</body>
+</html>
